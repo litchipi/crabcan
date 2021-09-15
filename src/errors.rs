@@ -2,6 +2,7 @@ use std::fmt;
 use std::process::exit;
 
 use crate::container::MINIMAL_KERNEL_VERSION;
+
 // Allows to display a variant with the format {:?}
 #[derive(Debug)]
 // Contains all possible errors in our tool
@@ -10,6 +11,7 @@ pub enum Errcode{
     NotSupported(u8),
     SocketError(u8),
     ContainerError(u8),
+    ChildProcessError(u8),
 }
 
 impl Errcode{

@@ -6,6 +6,7 @@ mod cli;
 mod container;
 mod ipc;
 mod config;
+mod child;
 
 use errors::exit_with_retcode;
 

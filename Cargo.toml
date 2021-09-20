@@ -10,3 +10,5 @@ edition = "2018"
 log = "0.4.22"
 env_logger = "0.11.6"
 clap = { version = "4.5.26", features = ["derive"] }
+nix = "0.22.1"
+scan_fmt = "0.2.6"

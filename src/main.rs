@@ -1,5 +1,6 @@
 use std::process::exit;
 
+#[macro_use] extern crate scan_fmt;
 mod errors;
 mod cli;
 mod container;

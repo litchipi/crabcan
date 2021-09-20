@@ -8,6 +8,7 @@ use crate::container::MINIMAL_KERNEL_VERSION;
 pub enum Errcode{
     ArgumentInvalid(&'static str),
     NotSupported(u8),
+    SocketError(u8),
     ContainerError(u8),
 }
 

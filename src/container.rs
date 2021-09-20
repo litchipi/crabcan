@@ -2,18 +2,24 @@ use crate::cli::Args;
 use crate::errors::Errcode;
 use crate::config::ContainerOpts;
 
+use nix::unistd::close;
 use nix::sys::utsname::uname;
+use std::os::unix::io::RawFd;
+
 pub struct Container{
+    sockets: (RawFd, RawFd),
     config: ContainerOpts,
 }
 
 impl Container {
     pub fn new(args: Args) -> Result<Container, Errcode> {
-        let config = ContainerOpts::new(
+        let (config, sockets) = ContainerOpts::new(
                 args.command,
                 args.uid,
                 args.mount_dir)?;
+
         Ok(Container {
+            sockets,
             config,
         })
     }
@@ -25,6 +31,16 @@ impl Container {
 
     pub fn clean_exit(&mut self) -> Result<(), Errcode>{
         log::debug!("Cleaning container");
+
+        if let Err(e) = close(self.sockets.0){
+            log::error!("Unable to close write socket: {:?}", e);
+            return Err(Errcode::SocketError(3));
+        }
+
+        if let Err(e) = close(self.sockets.1){
+            log::error!("Unable to close read socket: {:?}", e);
+            return Err(Errcode::SocketError(4));
+        }
         Ok(())
     }
 }

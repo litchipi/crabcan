@@ -4,6 +4,7 @@ use std::process::exit;
 mod errors;
 mod cli;
 mod container;
+mod ipc;
 mod config;
 
 use errors::exit_with_retcode;

@@ -7,6 +7,7 @@ mod container;
 mod ipc;
 mod config;
 mod child;
+mod namespaces;
 mod hostname;
 mod mounts;
 

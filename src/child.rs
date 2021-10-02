@@ -1,5 +1,6 @@
 use crate::errors::Errcode;
 use crate::config::ContainerOpts;
+use crate::namespaces::userns;
 use crate::hostname::set_container_hostname;
 use crate::mounts::setmountpoint;
 
@@ -12,6 +13,7 @@ const STACK_SIZE: usize = 1024 * 1024;
 fn setup_container_configurations(config: &ContainerOpts) -> Result<(), Errcode> {
     set_container_hostname(&config.hostname)?;
     setmountpoint(&config.mount_dir)?;
+    userns(config.fd, config.uid)?;
     Ok(())
 }
 

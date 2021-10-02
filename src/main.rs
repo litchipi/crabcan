@@ -8,6 +8,7 @@ mod ipc;
 mod config;
 mod child;
 mod hostname;
+mod mounts;
 
 use errors::exit_with_retcode;
 

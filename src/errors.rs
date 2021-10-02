@@ -11,6 +11,7 @@ pub enum Errcode{
     SocketError(u8),
     ContainerError(u8),
     ChildProcessError(u8),
+    MountsError(u8),
     HostnameError(u8),
     RngError
 }

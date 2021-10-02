@@ -3,6 +3,7 @@ use crate::config::ContainerOpts;
 use crate::namespaces::userns;
 use crate::hostname::set_container_hostname;
 use crate::mounts::setmountpoint;
+use crate::capabilities::setcapabilities;
 
 use nix::unistd::{Pid, close};
 use nix::sched::clone;
@@ -14,6 +15,7 @@ fn setup_container_configurations(config: &ContainerOpts) -> Result<(), Errcode>
     set_container_hostname(&config.hostname)?;
     setmountpoint(&config.mount_dir)?;
     userns(config.fd, config.uid)?;
+    setcapabilities()?;
     Ok(())
 }
 

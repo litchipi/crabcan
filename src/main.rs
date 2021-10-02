@@ -10,6 +10,7 @@ mod child;
 mod namespaces;
 mod hostname;
 mod mounts;
+mod capabilities;
 
 use errors::exit_with_retcode;
 

@@ -7,6 +7,7 @@ mod container;
 mod ipc;
 mod config;
 mod child;
+mod hostname;
 
 use errors::exit_with_retcode;
 

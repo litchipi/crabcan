@@ -1,5 +1,6 @@
 use crate::errors::Errcode;
 use crate::ipc::generate_socketpair;
+use crate::hostname::generate_hostname;
 
 use std::ffi::CString;
 use std::path::PathBuf;
@@ -9,6 +10,7 @@ pub struct ContainerOpts{
     pub path:       CString,
     pub argv:       Vec<CString>,
 
+    pub hostname:   String,
     pub fd:         RawFd,
     pub uid:        u32,
     pub mount_dir:  PathBuf,
@@ -29,6 +31,7 @@ impl ContainerOpts{
                 argv,
                 uid,
                 mount_dir,
+                hostname: generate_hostname()?,
                 fd: sockets.1.clone(),
             },
             sockets

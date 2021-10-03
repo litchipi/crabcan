@@ -15,6 +15,7 @@ pub enum Errcode{
     NamespacesError(u8),
     HostnameError(u8),
     CapabilitiesError(u8),
+    SyscallsError(u8),
     RngError
 }
 

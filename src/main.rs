@@ -11,6 +11,7 @@ mod namespaces;
 mod hostname;
 mod mounts;
 mod capabilities;
+mod syscalls;
 
 use errors::exit_with_retcode;
 

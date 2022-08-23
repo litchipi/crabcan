@@ -22,6 +22,10 @@ pub struct Args {
     /// Directory to mount as root of the container
     #[structopt(parse(from_os_str), short = "m", long = "mount")]
     pub mount_dir: PathBuf,
+
+    /// Mount a directory inside the container
+    #[structopt(parse(from_os_str), short = "a", long = "add")]
+    pub addpaths: Vec<PathBuf>,
 }
 
 pub fn parse_args() -> Result<Args, Errcode> {

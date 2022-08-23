@@ -74,7 +74,7 @@ pub fn mount_directory(path: Option<&PathBuf>, mount_point: &PathBuf, flags: Vec
 use std::fs::remove_dir;
 use nix::unistd::{pivot_root, chdir};
 use nix::mount::{mount, MsFlags, umount2, MntFlags};
-pub fn setmountpoint(mount_dir: &PathBuf) -> Result<(), Errcode> {
+pub fn setmountpoint(mount_dir: &PathBuf, addpaths: &Vec<(PathBuf, PathBuf)>) -> Result<(), Errcode> {
     log::debug!("Setting mount points ...");
     mount_directory(None, &PathBuf::from("/"), vec![MsFlags::MS_REC, MsFlags::MS_PRIVATE])?;
 
@@ -82,6 +82,13 @@ pub fn setmountpoint(mount_dir: &PathBuf) -> Result<(), Errcode> {
     log::debug!("Mounting temp directory {}", new_root.as_path().to_str().unwrap());
     create_directory(&new_root)?;
     mount_directory(Some(&mount_dir), &new_root, vec![MsFlags::MS_BIND, MsFlags::MS_PRIVATE])?;
+
+    log::debug!("Mounting additionnal paths");
+    for (inpath, mntpath) in addpaths.iter(){
+        let outpath = new_root.join(mntpath);
+        create_directory(&outpath)?;
+        mount_directory(Some(inpath), &outpath, vec![MsFlags::MS_PRIVATE, MsFlags::MS_BIND])?;
+    }
 
     log::debug!("Pivoting root");
     let old_root_tail = format!("oldroot.{}", random_string(6));

@@ -6,10 +6,11 @@ use crate::mounts::setmountpoint;
 use crate::capabilities::setcapabilities;
 use crate::syscalls::setsyscalls;
 
-use nix::unistd::{Pid, close};
+use nix::unistd::{Pid, close, execve};
 use nix::sched::clone;
 use nix::sys::signal::Signal;
 use nix::sched::CloneFlags;
+use std::ffi::CString;
 
 const STACK_SIZE: usize = 1024 * 1024;
 fn setup_container_configurations(config: &ContainerOpts) -> Result<(), Errcode> {
@@ -36,7 +37,14 @@ fn child(config: ContainerOpts) -> isize {
     }
 
     log::info!("Starting container with command {} and args {:?}", config.path.to_str().unwrap(), config.argv);
-    0
+    let retcode = match execve::<CString, CString>(&config.path, &config.argv, &[]){
+        Ok(_) => 0,
+        Err(e) => {
+            log::error!("Error while trying to perform execve: {:?}", e);
+            -1
+        }
+    };
+    retcode
 }
 
 pub fn generate_child_process(config: ContainerOpts) -> Result<Pid, Errcode> {

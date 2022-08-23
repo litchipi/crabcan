@@ -37,6 +37,10 @@ pub fn parse_args() -> Result<Args, Errcode> {
         return Err(Errcode::ArgumentInvalid("mount"));
     }
 
+    if args.command.is_empty() {
+        return Err(Errcode::ArgumentInvalid("command"));
+    }
+
     Ok(args)
 }
 

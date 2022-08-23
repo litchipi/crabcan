@@ -3,10 +3,7 @@
 set -e
 
 mkdir -p mountdir
-cd testbin
-RUSTFLAGS="-C target-feature=+crt-static" cargo build --release --target="x86_64-unknown-linux-gnu"
-cp target/x86_64-unknown-linux-gnu/release/testbin ../mountdir/
-cd ..
 cargo build
+cp /bin/bash ./mountdir/
 clear
-sudo ./target/debug/crabcan --debug -u 0 -m ./mountdir/ -c "/testbin"
+sudo ./target/debug/crabcan --debug -u 0 -m ./mountdir/ -c "/bash" -a /lib64:/lib64 -a /lib:/lib

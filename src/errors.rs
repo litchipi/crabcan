@@ -5,6 +5,7 @@ use std::process::exit;
 #[derive(Debug)]
 // Contains all possible errors in our tool
 pub enum Errcode{
+    ArgumentInvalid(&'static str),
 }
 
 impl Errcode{

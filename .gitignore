@@ -1,5 +1,4 @@
 /target
-*.lock
 *.orig
 mountdir/
 *_all_steps.sh

@@ -1,6 +1,6 @@
 use crate::errors::Errcode;
 
-use std::os::unix::io::RawFd;
+use std::os::{fd::IntoRawFd, unix::io::RawFd};
 use nix::sys::socket::{socketpair, AddressFamily, SockType, SockFlag, send, MsgFlags, recv};
 
 pub fn generate_socketpair() -> Result<(RawFd, RawFd), Errcode> {
@@ -10,7 +10,7 @@ pub fn generate_socketpair() -> Result<(RawFd, RawFd), Errcode> {
         None,
         SockFlag::SOCK_CLOEXEC)
     {
-        Ok(res) => Ok(res),
+        Ok((a, b)) => Ok((a.into_raw_fd(), b.into_raw_fd())),
         Err(_) => Err(Errcode::SocketError(0))
     }
 }

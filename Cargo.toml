@@ -11,5 +11,5 @@ log = "0.4.22"
 env_logger = "0.11.6"
 clap = { version = "4.5.26", features = ["derive"] }
 nix = { version = "0.29.0", features = ["feature", "hostname", "socket", "sched"] }
-rand = "0.8.4"
+rand = "0.8.5"
 scan_fmt = "0.2.6"

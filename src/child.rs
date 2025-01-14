@@ -23,13 +23,14 @@ pub fn generate_child_process(config: ContainerOpts) -> Result<Pid, Errcode> {
     flags.insert(CloneFlags::CLONE_NEWNET);
     flags.insert(CloneFlags::CLONE_NEWUTS);
 
-    match clone(
+    let res = unsafe {clone(
         Box::new(|| child(config.clone())),
         &mut tmp_stack,
         flags,
         Some(Signal::SIGCHLD as i32)
-    )
-    {
+    )};
+
+    match res {
         Ok(pid) => Ok(pid),
         Err(_) => Err(Errcode::ChildProcessError(0))
     }
